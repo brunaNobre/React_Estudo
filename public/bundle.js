@@ -22023,19 +22023,43 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 
 
 
-class Square extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
-    render() {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement('button', { className: 'square' });
-    }
+//Functional Component
+function Square(props) {
+    return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
+        'button',
+        { className: 'square', onClick: props.onClick },
+        props.value
+    );
 }
 
 class Board extends __WEBPACK_IMPORTED_MODULE_0_react___default.a.Component {
+
+    constructor() {
+        super();
+        this.state = {
+            squares: Array(9).fill(null),
+            xIsNext: true
+        };
+    }
+
+    handleClick(i) {
+        const squares = this.state.squares.slice();
+        if (squares[i] === null) {
+            squares[i] = this.state.xIsNext ? 'X' : 'O';
+        }
+        this.setState({
+            squares: squares,
+            xIsNext: !this.state.xIsNext
+        });
+    }
+
     renderSquare(i) {
-        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Square, null);
+        return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(Square, { value: this.state.squares[i], onClick: () => this.handleClick(i) });
     }
 
     render() {
-        const status = 'Next player: X';
+
+        const status = 'Next player: ' + (this.state.xIsNext ? 'X' : 'O');
 
         return __WEBPACK_IMPORTED_MODULE_0_react___default.a.createElement(
             'div',
